@@ -2,25 +2,22 @@ const express = require("express");
 const { json } = require("body-parser");
 const cors = require("cors");
 const { mail } = require("./sendMail");
+require("dotenv").config();
 
 const app = express();
-const PORT = 3001 || process.env.PORT;
+const PORT = process.env.PORT;
 
 // Middleware
 app.use(json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.ORIGIN, // Your client side url
     credentials: true,
     optionSuccessStatus: 200,
   })
 );
 
 // Routes
-app.get("/", (req, res) => {
-  res.status(404).send("No data");
-});
-
 app.post("/send/message", (req, res) => {
   const messageData = req.body;
   if (!messageData) {
