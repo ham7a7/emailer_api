@@ -5,19 +5,17 @@ const { mail } = require("./sendMail");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3046;
 
 // Middleware
 app.use(json());
-app.use(
-  cors({
-    origin: process.env.ORIGIN, // Your client side url
-    credentials: true,
-    optionSuccessStatus: 200,
-  })
-);
+app.use(cors());
 
 // Routes
+app.get("/", (req, res) => {
+  res.send("Working");
+});
+
 app.post("/send/message", (req, res) => {
   const messageData = req.body;
   if (!messageData) {
@@ -34,5 +32,5 @@ app.post("/send/message", (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on ${PORT}`);
 });
